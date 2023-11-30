@@ -1,40 +1,31 @@
-"use client"
+'use client'
 import React from 'react';
 import useSWR from 'swr';
-import Link from 'next/link';
-export default function page() {
+
+export default function ArticleDetail({params}) {
+    const id = params.id;
   const baseUrl = process.env.NEXT_PUBLIC_URL_API;
   const fetcher = (url) => fetch(url).then((res) => res.json());
-
-  const { data, error } = useSWR(`${baseUrl}/api/articles?populate=*`, fetcher);
+  const { data, error } = useSWR(id ? `${baseUrl}/api/articles/${id}?populate=*` : null, fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
-  if (!Array.isArray(data.data)) return <div>Data is not in the expected format</div>;
+//   if (!Array.isArray(data.data)) return console.log(data.data) ;
 
-    return (
-      <>
-        
-    <main className="p-4">
-        <div className="grid grid-cols-3 gap-4">
-        {data.data.map((item, index) => {
-        const { title, subtitle, description, author, createdAt, updatedAt, publishedAt, picture } = item.attributes;
-        const id = item.id;
-
-        // Mengambil URL gambar dalam format large jika tersedia
-        const largeImageUrl = picture.data?.[0]?.attributes?.formats?.large?.url
-          ? `${baseUrl}${picture.data[0].attributes.formats.large.url}`
-          : null;
-
-        return (
-          
-          <div key={index} className="card w-96 min-h-400 glass shadow-xl">
+  // Struktur data mungkin perlu disesuaikan berdasarkan respon API Anda
+console.log(data)
+  const { title, subtitle, description, author, createdAt, updatedAt, publishedAt, picture } = data.data.attributes;
+  const largeImageUrl = picture.data?.[0]?.attributes?.formats?.large?.url
+  ? `${baseUrl}${picture.data[0].attributes.formats.large.url}`
+  : null;
+  return (
+    <>
+          <div key={id} className="card w-96 min-h-400 glass shadow-xl">
             <figure className="w-96 h-64">
               {largeImageUrl && (
                 <img className="w-full h-full object-cover" src={largeImageUrl} alt={title}></img>
               )}
             </figure>
-            <Link href={`/article/${id}`}>
             <div className="card-body">
               <h2 className="card-title">
                 {title}
@@ -54,14 +45,8 @@ export default function page() {
                 <div className="badge badge-outline">Published: {new Date(publishedAt).toLocaleDateString()}</div>
               </div>
             </div>
-            </Link>
           </div>
-        );
-      })}
-        </div>
-    </main>
-    
-      </>
-    )
-  }
-  
+    </>
+
+  );
+}
