@@ -1,7 +1,8 @@
 'use client'
 import React from 'react';
 import useSWR from 'swr';
-
+import Navbar from '@/app/component/navbar';
+import Footer from '@/app/component/footer';
 export default function ArticleDetail({params}) {
     const id = params.id;
   const baseUrl = process.env.NEXT_PUBLIC_URL_API;
@@ -20,9 +21,10 @@ console.log(data)
   : null;
   return (
     <>
+    <Navbar />
     <div key={id} className="mockup-browser border border-base-300">
   <div className="mockup-browser-toolbar">
-    <div className="input border border-base-300">https://daisyui.com</div>
+    <div className="input border border-base-300">https://apinext.com</div>
   </div>
   <div className="flex justify-center px-4 py-16 border-t border-base-300">
   <div className="hero min-h-screen bg-base-200">
@@ -47,32 +49,7 @@ console.log(data)
 
   </div>
 </div>
-          {/* <div key={id} className="card w-96 min-h-400 glass shadow-xl">
-            <figure className="w-96 h-64">
-              {largeImageUrl && (
-                <img className="w-full h-full object-cover" src={largeImageUrl} alt={title}></img>
-              )}
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                {title}
-                <div className="badge badge-secondary">{author}</div>
-              </h2>
-              <p>{subtitle}</p>
-              <div className="collapse">
-                <input type="checkbox" />
-                <div className="collapse-title text-xl font-medium">
-                  Description
-                </div>
-                <div className="collapse-content">
-                  <p>{description}</p>
-                </div>
-              </div>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Published: {new Date(publishedAt).toLocaleDateString()}</div>
-              </div>
-            </div>
-          </div> */}
+<Footer />
     </>
 
   );
