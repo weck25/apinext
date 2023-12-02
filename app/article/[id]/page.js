@@ -20,7 +20,34 @@ console.log(data)
   : null;
   return (
     <>
-          <div key={id} className="card w-96 min-h-400 glass shadow-xl">
+    <div key={id} className="mockup-browser border border-base-300">
+  <div className="mockup-browser-toolbar">
+    <div className="input border border-base-300">https://daisyui.com</div>
+  </div>
+  <div className="flex justify-center px-4 py-16 border-t border-base-300">
+  <div className="hero min-h-screen bg-base-200">
+  <div className="hero-content flex-col lg:flex-row">
+    {largeImageUrl && 
+    (
+    <img src={largeImageUrl} className="max-w-sm rounded-lg shadow-2xl" />
+
+    )
+    }
+    <div>
+      <h1 className="text-5xl font-bold">{title}</h1>
+      <h1 className="text-2xl font-bold">{subtitle}</h1>
+      <p className="py-6">{description}</p>
+      <div className="badge badge-secondary">{author}</div>
+      <p className='py-6 bg-orange rounded justify-end'>Published : {publishedAt}</p>
+
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+          {/* <div key={id} className="card w-96 min-h-400 glass shadow-xl">
             <figure className="w-96 h-64">
               {largeImageUrl && (
                 <img className="w-full h-full object-cover" src={largeImageUrl} alt={title}></img>
@@ -45,7 +72,7 @@ console.log(data)
                 <div className="badge badge-outline">Published: {new Date(publishedAt).toLocaleDateString()}</div>
               </div>
             </div>
-          </div>
+          </div> */}
     </>
 
   );

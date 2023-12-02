@@ -2,6 +2,11 @@
 import React from 'react';
 import useSWR from 'swr';
 import Link from 'next/link';
+import Navbar from './component/navbar';
+import Footer from './component/footer';
+
+
+
 export default function page() {
   const baseUrl = process.env.NEXT_PUBLIC_URL_API;
   const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -14,7 +19,7 @@ export default function page() {
 
     return (
       <>
-        
+        <Navbar/>
     <main className="p-4">
         <div className="grid grid-cols-3 gap-4">
         {data.data.map((item, index) => {
@@ -60,7 +65,7 @@ export default function page() {
       })}
         </div>
     </main>
-    
+    <Footer/>
       </>
     )
   }
