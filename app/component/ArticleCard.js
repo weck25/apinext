@@ -10,23 +10,23 @@ export default function ArticleCard() {
   const baseUrl = process.env.NEXT_PUBLIC_URL_API;
   const fetcher = (url) => fetch(url).then((res) => res.json());
 
-  const { data, error } = useSWR(`${baseUrl}/api/articles?populate=*`, fetcher);
+  const { data, error } = useSWR(`${baseUrl}/articles`, fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
-  if (!Array.isArray(data.data)) return <div>Data is not in the expected format</div>;
+  if (!Array.isArray(data)) return <div>Data is not in the expected format</div>;
 
     return (
       <>
     <main className="p-4">
         <div className="grid grid-cols-3 gap-4">
-        {data.data.map((item, index) => {
-        const { title, subtitle, description, author, createdAt, updatedAt, publishedAt, picture } = item.attributes;
+        {data.map((item, index) => {
+        const { title, subtitle, description, author, created_at, edited_at, publishedAt, img_article } = item;
         const id = item.id;
 
         // Mengambil URL gambar dalam format large jika tersedia
-        const largeImageUrl = picture.data?.[0]?.attributes?.formats?.large?.url
-          ? `${baseUrl}${picture.data[0].attributes.formats.large.url}`
+        const largeImageUrl = img_article
+          ? `${baseUrl}${img_article}`
           : null;
 
         return (
@@ -54,7 +54,7 @@ export default function ArticleCard() {
                 </div>
               </div>
               <div className="card-actions justify-end">
-                <div className="badge badge-outline">Published: {new Date(publishedAt).toLocaleDateString()}</div>
+                <div className="badge badge-outline">Published: {created_at}</div>
               </div>
             </div>
             </Link>

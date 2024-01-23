@@ -7,7 +7,7 @@ export default function ArticleDetail({params}) {
     const id = params.id;
   const baseUrl = process.env.NEXT_PUBLIC_URL_API;
   const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR(id ? `${baseUrl}/api/articles/${id}?populate=*` : null, fetcher);
+  const { data, error } = useSWR(id ? `${baseUrl}/articles/${id}` : null, fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
@@ -15,9 +15,9 @@ export default function ArticleDetail({params}) {
 
   // Struktur data mungkin perlu disesuaikan berdasarkan respon API Anda
 console.log(data)
-  const { title, subtitle, description, author, createdAt, updatedAt, publishedAt, picture } = data.data.attributes;
-  const largeImageUrl = picture.data?.[0]?.attributes?.formats?.large?.url
-  ? `${baseUrl}${picture.data[0].attributes.formats.large.url}`
+  const { title, subtitle, description, author, created_at, updatedAt, publishedAt, img_article } = data[0];
+  const largeImageUrl = img_article
+  ? `${baseUrl}${img_article}`
   : null;
   return (
     <>
@@ -40,7 +40,7 @@ console.log(data)
       <h1 className="text-2xl font-bold">{subtitle}</h1>
       <p className="py-6">{description}</p>
       <div className="badge badge-secondary">{author}</div>
-      <p className='py-6 bg-orange rounded justify-end'>Published : {publishedAt}</p>
+      <p className='py-6 bg-orange rounded justify-end'>Published : {created_at}</p>
 
     </div>
   </div>
