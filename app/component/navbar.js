@@ -7,6 +7,9 @@ export default function Navbar() {
       <Link href={'/'}>
         <h1 className="text-3xl">Blog Sederhana</h1>
         </Link>
+        <Link href={'/tambah'}>
+        <button className='btn primary'>tambah</button>
+        </Link>
     </header>
   )
 }

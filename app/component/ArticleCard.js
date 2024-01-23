@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 
 export default function ArticleCard() {
+
   const baseUrl = process.env.NEXT_PUBLIC_URL_API;
   const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -15,7 +16,7 @@ export default function ArticleCard() {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
   if (!Array.isArray(data)) return <div>Data is not in the expected format</div>;
-
+ 
     return (
       <>
     <main className="p-4">
@@ -23,7 +24,6 @@ export default function ArticleCard() {
         {data.map((item, index) => {
         const { title, subtitle, description, author, created_at, edited_at, publishedAt, img_article } = item;
         const id = item.id;
-
         // Mengambil URL gambar dalam format large jika tersedia
         const largeImageUrl = img_article
           ? `${baseUrl}${img_article}`
@@ -58,6 +58,9 @@ export default function ArticleCard() {
               </div>
             </div>
             </Link>
+            
+            
+            
           </div>
         );
       })}

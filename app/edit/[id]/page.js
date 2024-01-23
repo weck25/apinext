@@ -1,9 +1,12 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import axios from 'axios';
 
-export default function  Tambah(){
+export default function  Tambah({params}){
+    const id = params.id;
 
+    
+    
     const [Title, setTitle]= useState('');
     const [Subtitle, setSubtitle] =useState("");
     const [Description,setDescription] = useState("");
@@ -12,6 +15,28 @@ export default function  Tambah(){
     const [CreatedAt, setCreaatedAt]= useState(Date);
     const [EditedAt, setEditedAt]= useState(Date);
     const [Published, setPublished]= useState(false);
+
+    const getData = async () => {
+        try {
+          const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+          const response = await axios.get(`${baseUrl}/articles/${id}`);
+          const item = response.data[0]
+          setTitle(item.title)
+          setSubtitle(item.subtitle)
+          setDescription(item.description)
+          setImage(item.img_article)
+          setAuthor(item.author)
+          setCreaatedAt(item.created_at)
+          setEditedAt(item.edited_at)
+          console.log(response.data)
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      useEffect(() => {
+        getData();
+      }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,7 +64,7 @@ export default function  Tambah(){
       
         try {
           // Make a POST request to your API endpoint using Axios
-          const response = await axios.post(`${baseUrl}/articles`, formData);
+          const response = await axios.put(`${baseUrl}/update/${id}`, formData);
       
           // Handle the response as needed
           console.log(response.data);
@@ -56,43 +81,43 @@ return (
         type="text"
         value={Title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
+        placeholder={Title}
       />
       <input
         type="text"
         value={Subtitle}
         onChange={(e) => setSubtitle(e.target.value)}
-        placeholder="Subtitle"
+        placeholder={Subtitle}
       />
       <input
         type="text"
         value={Description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Deskription"
+        placeholder={Description}
       />
       <input
         type="text"
         value={Image}
         onChange={(e) => setImage(e.target.value)}
-        placeholder="image"
+        placeholder={Image}
       />
       <input
         type="text"
         value={Author}
         onChange={(e) => setAuthor(e.target.value)}
-        placeholder="Author"
+        placeholder={Author}
       />
       <input
         type="date"
         value={CreatedAt}
         onChange={(e) => setCreaatedAt(e.target.value)}
-        placeholder="created at"
+        placeholder={CreatedAt}
       />
       <input
         type="date"
         value={EditedAt}
         onChange={(e) => setEditedAt(e.target.value)}
-        placeholder="published at"
+        placeholder={EditedAt}
       />
       
       <button type="submit">Add Data</button>
